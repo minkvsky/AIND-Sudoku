@@ -21,7 +21,7 @@ def naked_twins(values):
 
     # Find all instances of naked twins
     for box in values:
-        if len(values[box] == 2):
+        if len(values[box]) == 2:
             for box2 in peers[box]:
                 if values[box2] == values[box]:
                     for unit in unitlist:
@@ -159,6 +159,7 @@ def solve(grid):
     values_solved = search(values)
     return values_solved
 
+
 assignments = []
 rows = 'ABCDEFGHI'
 cols = '123456789'
@@ -167,8 +168,8 @@ row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC', 'DEF', 'GHI')
                 for cs in ('123', '456', '789')]
-diagonal_units = [[r + c for r, c in zip(rows,cols)],
-                  [r + c for r, c in zip(rows[::-1],cols)]]
+diagonal_units = [[r + c for r, c in zip(rows, cols)],
+                  [r + c for r, c in zip(rows[::-1], cols)]]
 unitlist = row_units + column_units + square_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s], []))-set([s])) for s in boxes)
