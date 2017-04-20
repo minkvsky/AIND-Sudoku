@@ -20,16 +20,19 @@ def naked_twins(values):
     """
 
     # Find all instances of naked twins
+    twins = []
     for box in values:
         if len(values[box]) == 2:
             for box2 in peers[box]:
-                if values[box2] == values[box]:
-                    for unit in unitlist:
-                        if box in unit and box2 in unit:
-                            for box3 in unit:
-                                values[box3] = values[box3].replace(values[box][0])
-                                values[box3] = values[box3].replace(values[box][1])
+                if values[box2] == values[box] and set([box, box2]) not in twins:
+                    twins.append(set([box, box2]))
+
     # Eliminate the naked twins as possibilities for their peers
+    for s in twins:
+        s = list(s)
+        for box in peers[s[0]] & peers[s[1]]:
+            values[box] = values[box].replace(values[s[0]][0], '')
+            values[box] = values[box].replace(values[s[0]][1], '')
     return values
 
 
