@@ -156,9 +156,6 @@ def solve(grid):
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
     values = grid_values(grid)
-    unitlist = row_units + column_units + square_units + diagonal_units
-    units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
-    peers = dict((s, set(sum(units[s], []))-set([s])) for s in boxes)
     values_solved = search(values)
     return values_solved
 
@@ -173,7 +170,7 @@ square_units = [cross(rs, cs) for rs in ('ABC', 'DEF', 'GHI')
                 for cs in ('123', '456', '789')]
 diagonal_units = [[r + c for r, c in zip(rows, cols)],
                   [r + c for r, c in zip(rows[::-1], cols)]]
-unitlist = row_units + column_units + square_units
+unitlist = row_units + column_units + square_units + diagonal_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s], []))-set([s])) for s in boxes)
 
