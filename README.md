@@ -4,10 +4,17 @@
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
 A: *First,find all instances of naked twins;Then,in every box of every common peers of every couple twins delete the two string of corresponding twins*
+*Naked twins have the following feature:
+- consider only two box.
+- there are same two digits in every box of the two box.
+steps to sovle the naked twins:
+- find all instances of naked twins based on the features
+- since in every unit one digit can't appear twice, so the digits of the naked twins can't appear in other box of the common peers of the two box of the naked twins,and then we can delete the two digits of the naked twins in every box of the common peers of the two box of the naked twins.
+*
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Different from regular sudoku problem,the diagonal gets new constraint propagation:there's no same digit in the two diagonal.So I add the two diagonal into the unitlist.Then I can solve the diagonal sudoku problem as regular diagonal*
+A: *Different from regular sudoku problem,the diagonal sudoku prolem gets new constraint propagation:there will be no same digit appearing in the two diagonal.So I add the two diagonal into the constraint propagation of regular sudoku.Then I solve the diagonal sudoku problem same as regular sudoku*
 
 ### Install
 
