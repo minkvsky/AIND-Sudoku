@@ -31,8 +31,10 @@ def naked_twins(values):
     for s in twins:
         s = list(s)
         for box in peers[s[0]] & peers[s[1]]:
-            values[box] = values[box].replace(values[s[0]][0], '')
-            values[box] = values[box].replace(values[s[0]][1], '')
+            for ss in values[s[0]]:
+                values = assign_value(values,box,values[box].replace(ss,''))
+            # values[box] = values[box].replace(values[s[0]][0], '')
+            # values[box] = values[box].replace(values[s[0]][1], '')
     return values
 
 
@@ -88,7 +90,8 @@ def eliminate(values):
     for box in solved_values:
         digit = values[box]
         for peer in peers[box]:
-            values[peer] = values[peer].replace(digit, '')
+            # values[peer] = values[peer].replace(digit, '')
+            values = assign_value(values,peer,values[peer].replace(digit, ''))
     return values
 
 
@@ -102,7 +105,8 @@ def only_choice(values):
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
             if len(dplaces) == 1:
-                values[dplaces[0]] = digit
+                # values[dplaces[0]] = digit
+                values = assign_value(values,dplaces[0],digit)
     return values
 
 
