@@ -14,7 +14,7 @@ steps to sovle the naked twins:
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Different from regular sudoku problem,the diagonal sudoku prolem gets new constraint propagation:there will be no same digit appearing in the two diagonal.So I add the two diagonal into the constraint propagation of regular sudoku.Then I solve the diagonal sudoku problem same as regular sudoku*
+A: *Different from regular sudoku problem,the diagonal sudoku prolem gets new constraint propagation(a type of inference):there will be no same digit appearing in the two diagonal besides rows,columns and squares.Using constraint propagation will reduce the search space obviously.So I add the two diagonal into the constraint propagation of regular sudoku.Then I solve the diagonal sudoku problem same as regular sudoku*
 
 ### Install
 
