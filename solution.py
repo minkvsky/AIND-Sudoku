@@ -10,6 +10,26 @@ def assign_value(values, box, value):
     return values
 
 
+def findtwins(values):
+    twins = []
+    for box in values:
+        if len(values[box]) == 2:
+            for box2 in peers[box]:
+                if values[box2] == values[box] and set([box, box2]) not in twins:
+                    twins.append(set([box, box2]))
+    return twins
+
+
+def eliminate_twins(values,twins):
+    twins = findtwins(values)
+    for s in twins:
+        s = list(s)
+        for box in peers[s[0]] & peers[s[1]]:
+            for ss in values[s[0]]:
+                values = assign_value(values,box,values[box].replace(ss,''))
+    return values
+
+
 def naked_twins(values):
     """Eliminate values using the naked twins strategy.
     Args:
@@ -18,24 +38,25 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-
     # Find all instances of naked twins
-    twins = []
-    for box in values:
-        if len(values[box]) == 2:
-            for box2 in peers[box]:
-                if values[box2] == values[box] and set([box, box2]) not in twins:
-                    twins.append(set([box, box2]))
-    # Eliminate the naked twins as possibilities for their peers
-    for s in twins:
-        s = list(s)
-        for box in peers[s[0]] & peers[s[1]]:
-            # for ss in values[s[0]]:
-            #     values = assign_value(values,box,values[box].replace(ss,''))
-            values[box] = values[box].replace(values[s[0]][0], '')
-            values[box] = values[box].replace(values[s[0]][1], '')
-            # values = assign_value(values,box,values[box].replace(s[0][0],''))
-            # values = assign_value(values,box,values[box].replace(s[0][1],''))
+    twins = findtwins(values)
+    no_more_twins = len(twins) == 0
+    # We have to iterate through all units until there are no more twins to be found. The way we do that is to compare the board before
+    # and after the naked twins detection. If the board is the same then no new twins have been found. We have to do it in a while loop
+    # because we might uncover new twins when possible values are removed from peers
+    while not no_more_twins:
+        board_before = values
+        # Eliminate the naked twins as possibilities for their peers
+        values = eliminate_twins(values,twins)
+        board_after = values
+        # if boards before and after naked twin detection are the same
+        # then there are no more twins thus we end the while loop
+        if board_before == board_after:
+            no_more_twins = True
+        else:
+            twins = findtwins(values)
+            no_more_twins = len(twins) == 0
+
     return values
 
 
