@@ -11,6 +11,14 @@ def assign_value(values, box, value):
 
 
 def findtwins(values):
+    """
+    Find naked_twins of values.
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        twins(list):a list of the form [{'E8', 'G8'}, {'H8', 'I8'}]
+    """
     twins = []
     for box in values:
         if len(values[box]) == 2:
@@ -21,6 +29,15 @@ def findtwins(values):
 
 
 def eliminate_twins(values,twins):
+    """
+    Eliminate values using the given (naked) twins.
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+        twins(list):a list of the form [{'E8', 'G8'}, {'H8', 'I8'}]
+
+    Returns:
+        the values dictionary with the (naked) twins eliminated from peers.
+    """
     twins = findtwins(values)
     for s in twins:
         s = list(s)
@@ -112,7 +129,6 @@ def eliminate(values):
     for box in solved_values:
         digit = values[box]
         for peer in peers[box]:
-            # values = assign_value(values,peer,values[peer].replace(digit, ''))
             values[peer] = values[peer].replace(digit, '')
     return values
 
@@ -127,7 +143,6 @@ def only_choice(values):
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
             if len(dplaces) == 1:
-                # values = assign_value(values,dplaces[0],digit)
                 values[dplaces[0]] = digit
     return values
 
@@ -146,7 +161,6 @@ def reduce_puzzle(values):
         solved_values_before = len([box for box in values.keys() if len(values[box]) == 1])
         values = eliminate(values)
         values = only_choice(values)
-        # values = naked_twins(values)
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
         stalled = solved_values_before == solved_values_after
         if len([box for box in values.keys() if len(values[box]) == 0]):
